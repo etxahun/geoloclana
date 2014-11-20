@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Nextel - GeoLocation</title>
+    
+    <style type="text/css">
+        
+    #map-outer {
+        height: 100%;
+        padding: 20px;
+        /*border: 2px solid #CCC;*/
+        margin-bottom: 20px;
+        background-color: #FFF;
+    }
+
+    #map-canvas {
+        height: 455px;
+    }
+
+    #tracking_panel {
+        display: none;
+    }
+
+    #start_track {
+        margin-left: 10px;
+        width: 80px;
+    }
+
+    #stop_track {
+        margin: 10px;
+        width: 80px;
+    }
+
+	#clear_track_values {
+	    display: none;
+	    margin: 10px;
+	    width: 175px;
+	}
+      
+    </style>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/sb-admin.css" rel="stylesheet">
+
+    <!-- Morris Charts CSS -->
+    <link href="css/plugins/morris.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">Nextel - GeoLocation Data Entry</a>
+            </div>
+
+            <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav side-nav">
+                    <li class="active">
+                        <a href="index.html"><i class="fa fa-fw fa-globe"></i> Map - Data Entry</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </nav>
+
+        <div id="page-wrapper">
+
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+                            Map <small>Location Data Entry</small>
+                        </h1>
+                        <ol class="breadcrumb">
+                            <li class="active">
+                                <i class="fa fa-fw fa-globe"></i> Map
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div id="debug" class="row"></div>
+
+                <div class="row">
+                    <div id="map-outer" class="col-md-12">
+                        <div class="form-group col-md-4">
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                        <h3 class="panel-title">#1: Location Update Frequency</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <select id="lista_refresh" class="form-control focus">
+                                            <option selected value="0">(Select a frequency value)</option>
+                                            <option value="5000"> 5 seconds</option>
+                                            <option value="10000"> 10 seconds</option>
+                                            <option value="15000"> 15 seconds</option>
+                                            <option value="30000"> 30 seconds</option>
+                                            <option value="60000"> 1 minute</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="tracking_panel" class="panel panel-info">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">#2: Start the Tracking</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <label id="demo">Press <i>Start</i> to run the tracking:</label>
+                                    <br>
+                                    <button type="submit" id="start_track" class="btn btn-primary">Start</button>
+                                    <button type="submit" id="stop_track" class="btn btn-danger">Stop</button>
+                                    <br>
+                                    <!--
+                                    <button type="submit" id="clear_track_values" class="btn btn-success">Clear Table</button>
+                                    -->
+                                </div>
+                            </div>
+
+                            <div class="table-responsive">
+                                <table id="tracking_table" class="table table-bordered table-hover">
+                                    <tbody>
+                                        <tr class="active">
+                                            <td><b>User ID</b></td>
+                                            <td id="user_id"></td>
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td><b>Latitude</td>
+                                            <td id="lat_data" class="valor_tabla"></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td><b>Longitude</b></td>
+                                            <td id="lon_data" class="valor_tabla"></td>
+                                        </tr>
+
+                    					<tr>
+                    					   <td><b>Lon/Lat Accuracy [m]</b></td>
+                    					   <td id="lat_long_acc_data" class="valor_tabla"></td>
+                    					</tr>
+                    				
+                    					<tr>
+                    					   <td><b>Altitude [m]</b></td>
+                    					   <td id="altitude_data" class="valor_tabla"></td>
+                    					</tr>
+
+                    					<tr>
+                    					   <td><b>Altitude Accuracy [m]</b></td>
+                    					   <td id="alt_acc_data" class="valor_tabla"></td>
+                    					</tr>
+
+                    				        <tr>
+                                           <td><b>Heading [degrees]</b></td>
+                                           <td id="heading_data" class="valor_tabla"></td>
+                                        </tr>
+
+                                        <tr>
+                                           <td><b>Speed [m/s]</b></td>
+                                           <td id="speed_data" class="valor_tabla"></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td><b>TimeStamp</b></td>
+                                            <td id="time_stamp" class="valor_tabla"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>                               
+                            </div>
+                        </div> <!-- Fin del form-group 3-->
+
+                        <div class="col-md-8">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">
+                                        <i class="fa fa-fw fa-globe"></i>
+                                            Map
+                                    </h3>
+                                </div>
+
+                                <div id="map-canvas" class="panel-body">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div><!-- /map-outer -->
+                </div> <!-- /row -->
+
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Morris Charts JavaScript -->
+    <!--
+    <script src="js/plugins/morris/raphael.min.js"></script>
+    <script src="js/plugins/morris/morris.min.js"></script>
+    <script src="js/plugins/morris/morris-data.js"></script>
+    -->  
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+    <script src="js/fingerprint.js"></script>
+    <script type="text/javascript">
+   
+    $(document).ready(function() {
+
+        /* Ponemos el focus en el Select */
+        $("#lista_refresh").focus();
+
+        //Obtenemos el UserID del dispositivo:
+        showUserId();
+
+        $("#lista_refresh").change(
+            function()
+                {
+                    if( ($("#lista_refresh option:selected").val())!=0 )
+                        {
+                         $("#tracking_panel").show(); 
+                        }
+                }
+        );
+
+        // Llamamos a getLocationSeguimiento (que hace uso de geolocation.watchPosition)
+        $("#start_track").click(function() { getLocationSeguimiento(); });
+        $("#stop_track").click(function(){ stopWatch() });
+
+
+	    //$("#clear_track_values").click(function() { $(".valor_tabla").empty(); });
+
+
+    });//Fin del $(document).ready.
+
+    var path = [];
+    var fingerprint;
+    var myVar;
+    var escritura_tabla = false;
+
+    function showUserId()
+    {
+        fingerprint = new Fingerprint().get();
+        $("#user_id").html("<i>"+fingerprint+"</i>");
+    }
+
+
+    function getLocationSeguimiento() 
+    {
+        //Guardamos el valor de la frecuencia de refresco seleccionado en el Select.
+        var refresh = $("#lista_refresh option:selected").val();
+
+        if(refresh==0)
+        {
+            alert ("You have to select a \"frequency\" value first.");
+        }
+
+        else{
+
+            if (navigator.geolocation) {    
+            var optionsWatch = 
+                {
+                 enableHighAccuracy: true,
+                 timeout: 10000,
+                 maximumAge: 0
+                };
+
+            //alert("Antes de entrar en \"Almacena Posicion\"");
+            $("#tracking_panel").show();
+            watchID = navigator.geolocation.watchPosition(showPositionSeguimiento,showError,optionsWatch);
+            myVar = setInterval(function() { almacenaPosicion(); }, refresh);
+            
+            } else {
+                $("#debug").html("Geolocation is not supported in this browser.");
+            }
+        }
+    }
+
+
+/*
+    function initGetLocation (refresh)
+    {
+        myVar = setInterval(function(){ getLocation() }, refresh*1000);
+
+    }
+*/
+/*
+    function getLocation()
+    {        
+        //Guardamos el valor de la frecuencia de refresco seleccionado en el Select.
+        var refresh = $("#lista_refresh option:selected").val();
+
+        var options = {
+                enableHighAccuracy: true,
+            };
+
+        if (navigator.geolocation) 
+            {
+             navigator.geolocation.getCurrentPosition(showPositionSeguimiento);
+             myVar = setTimeout(function() { getLocation() }, refresh);
+            } 
+        else 
+            {
+             x.innerHTML = "Geolocation is not supported by this browser.";
+            }
+    }
+*/
+
+
+    function showPositionSeguimiento(position) 
+    {
+        var dt = new Date();
+    	var lat_long_acc;
+    	var alt;
+    	var alt_acc;
+    	var heading;
+    	var speed;
+
+        //Guardamos en "path" la posición actual
+        path.push(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
+        
+        //Para sacar todo el listado de coordenadas:
+        //$("#coordenadas").append(position.coords.latitude + "," + position.coords.longitude + "<br>");  
+
+    	if(isNaN(position.coords.accuracy)) 
+    		{
+    		 lat_long_acc = "N/A";
+    		}
+    	else
+    		{
+    		 lat_long_acc = position.coords.accuracy;
+    		}
+
+    	if(isNaN(position.coords.altitude))
+    		{
+    		 alt = "N/A";
+    		}
+    	else
+    		{
+    		 alt = position.coords.altitude;
+    		}
+            
+    	if(isNaN(position.coords.altitudeAccuracy))
+    		{
+    		 alt_acc = "N/A";
+    		}
+    	else
+    		{
+    		 alt_acc = position.coords.altitudeAccuracy;
+    		}
+
+    	if(isNaN(position.coords.heading))
+    		{
+    		 heading = "N/A";
+    		}
+    	else
+    		{
+    		 heading = position.coords.heading;
+    		}
+
+    	if(isNaN(position.coords.speed))
+    		{
+    		 speed = "N/A";
+    		}
+    	else
+    		{
+    		 speed = position.coords.speed;
+    		}
+
+        //Cambiamos el valor de la variable "escritura_tabla" a TRUE;
+        escritura_tabla = true;
+
+        $("#lat_data").html(position.coords.latitude);
+        $("#lon_data").html(position.coords.longitude);
+        $("#lat_long_acc_data").html(lat_long_acc);
+        $("#altitude_data").html(alt);
+        $("#alt_acc_data").html(alt_acc);
+        $("#heading_data").html(heading);
+        $("#speed_data").html(speed);
+
+        var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+        //var time2 = position.coords.timestamp;
+    	
+    	$("#time_stamp").html(time);
+
+        //almacenaPosicion(fingerprint,position.coords.latitude,position.coords.longitude);               
+
+        // Mostramos el mapa centrado en center: path[0]
+        //var coords = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+        var options = {
+                zoom: 17,
+                //center: coords,
+                center: path[0],
+                mapTypeControl: false,
+                navigationControlOptions: {
+                    style: google.maps.NavigationControlStyle.SMALL
+                },
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+
+        var map = new google.maps.Map(document.getElementById("map-canvas"), options);
+        
+        // Create the array that will be used to fit the view to the points range and
+        // place the markers to the polyline's points
+        var latLngBounds = new google.maps.LatLngBounds();
+
+        for(var i = 0; i < path.length; i++) {
+            latLngBounds.extend(path[i]);
+            // Place the marker
+            new google.maps.Marker({
+              map: map,
+              position: path[i],
+              title: "Point " + (i + 1)
+            });
+        }
+    
+        // Creates the polyline object
+        var polyline = new google.maps.Polyline({
+            map: map,
+            path: path,
+            strokeColor: '#0000FF',
+            strokeOpacity: 0.7,
+            strokeWeight: 1
+        });
+        
+        // Fit the bounds of the generated points
+        map.fitBounds(latLngBounds);
+    }
+
+    
+    function stopWatch() 
+    {
+        if (watchID != null) 
+            {
+                navigator.geolocation.clearWatch(watchID);
+                watchID = null;
+                //Paramos el proceso setInterval:
+                clearInterval(myVar);
+                
+                //Mostramos el siguiente mensaje cuando paremos el "Tracking":
+                var msg = "<div style=\"margin-left: 40px;\" class=\"col-md-10 alert alert-info\">The tracking process has been stopped.</div>";
+                $("#debug").html(msg);
+
+                //Mostramos el botón que permite vaciar la tabla:
+		        //$("#clear_track_values").show();
+
+                //Ocultamos el div "tracking_panel":
+                $("#tracking_panel").hide();
+
+                //Reseteamos el "Select" inicial:
+                $("#lista_refresh").val('0');
+
+                //Borramos el Div donde mostramos los mensajes
+                setTimeout(function() { $("#debug").empty(); }, 3000);
+
+            }
+    }
+    
+
+    function showError(error) {
+        //alert(watchID);
+        switch(error.code) 
+        {
+            case error.PERMISSION_DENIED:
+		        var msg1 = "<div style=\"margin-left: 40px;\" class=\"col-md-10 alert alert-success\">User denied the request for Geolocation.</div>"; 
+                $("#debug").html(msg1);
+                break;
+
+            case error.POSITION_UNAVAILABLE:
+                var msg2 = "<div style=\"margin-left: 40px;\" class=\"col-md-10 alert alert-warning\">Location information is unavailable.</div>";
+                $("#debug").html(msg2);
+                break;
+
+            case error.TIMEOUT:
+                var msg3 = "<div style=\"margin-left: 40px;\" class=\"col-md-10 alert alert-warning\">The request to get user location timed out.</div>";
+                $("#debug").html(msg3);
+                break;
+
+            case error.UNKNOWN_ERROR:
+                var msg4 = "<div style=\"margin-left: 40px;\" class=\"col-md-10 alert alert-danger\">An unknown error ocurred.</div>";
+                $("#debug").html("msg4");
+                break;
+        }
+    }
+
+    function almacenaPosicion ()
+    { 
+        var user_sel = $("#user_id").text();
+        var latitude = $("#lat_data").text();
+        var longitude = $("#lon_data").text();
+
+        //Comprobamos que la tabla contenga al menos datos de la primera lectura. En ese caso, haremos la escritura en base de datos:
+        if (escritura_tabla)
+        {
+            $.ajax({
+                url: 'store_path.php?action=add&user_id='+user_sel+'&latitude='+latitude+'&longitude='+longitude+'',
+                type: 'POST',
+                data: {
+                        userid: user_sel,
+                        poslat: latitude,
+                        poslong: longitude
+                      }, 
+                dataType: 'text',
+                crossDomain: true,
+                success: function(data){            
+                    
+                    if(data = "1 - Collecting data") 
+                        {
+                            console.log("Position successfully stored.");
+                        }
+                },
+
+                error: function(xhr, textStatus, errorThrown) {
+                    console.log('ajax loading error...');
+                    return false;
+                }
+            });
+        }
+    }
+
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Nextel - GeoLocation</title>
+
+    <style type="text/css">
+        .tabla_esb {
+            text-align: center;
+        }
+
+
+        #map-canvas {
+            height: 400px;
+            margin-left: 10px;
+            /*border: 2px solid #CCC;*/
+            margin-top: 20px;
+            margin-bottom: 20px;
+            background-color: #FFF;
+        }
+
+    </style>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/sb-admin.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">Nextel GeoLocation</a>
+            </div>
+            
+            <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav side-nav">
+                    <li>
+                        <a href="index.html"><i class="fa fa-fw fa-dashboard"></i> Map</a>
+                    </li>
+                    <li>
+                        <a href="locations.html"><i class="fa fa-fw fa-table"></i> Locations</a>
+                    </li>
+                    <li class="active">
+                        <a href="simulation.html"><i class="fa fa-fw fa-table"></i> Simluation</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </nav>
+
+        <div id="page-wrapper">
+
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+                            Simulation
+                        </h1>
+                        <ol class="breadcrumb">
+                            <li>
+                                <i class="fa fa-dashboard"></i>  <a href="index.html">Map</a>
+                            </li>
+                            <li class="active">
+                                <i class="fa fa-table"></i> Simulation
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- /.row -->
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <h3>Please select a user:</h3>
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <select id="lista_usuarios" class="form-control">
+                                    <option selected value="0">(Please, select a user)</option>    
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-11">
+                        <h3>User Path: </h3>
+                        <div class="table-responsive">
+                            <table id="tabla_locations" class="table table-hover table-striped">
+                                <thead>
+                                    <tr>                                               
+                                        <th class="tabla_esb"><b>Location ID</b></th>
+                                        <th class="tabla_esb"><b>Time Stamp</b></th>
+                                        <th class="tabla_esb"><b>User ID</b></th>
+                                        <th class="tabla_esb"><b>Latitude</b></th>
+                                        <th class="tabla_esb"><b>Longitude</b></th>
+                                        <th class="tabla_esb"><b>Action</b></th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div> <!-- /row -->
+                
+                <div class="row">
+                    <div class="col-md-3">
+                        <button type="submit" id="clear_path" style="display: none;" class="btn btn-danger">Clear Path</button>
+                    </div>
+                </div>
+
+                <br>
+
+                <div class="row">
+                    <div class="col-md-11">
+                        <h3>Path Simulation: </h3>
+                        <button type="submit" id="start_simulation_button" class="btn btn-primary">Run Simulation</button>
+                    </div>
+                    <div id="map-canvas" class="col-md-11"></div><!-- /map-outer -->
+                </div> <!-- /row -->
+
+
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry"></script>
+    <script type="text/javascript">
+    
+    $(document).ready(function() {
+
+        //Listado inicial de los Locations almacenados en la BBDD:
+        //locations("get",0,0,0);
+
+        //Cargamos el listado de usuarios
+        fillUserList("#lista_usuarios");
+
+        //Detectamos el cambio en la selección de usuario
+        $("#lista_usuarios").change(
+            function() 
+                {
+                  var user_sel = $("#lista_usuarios option:selected").val();
+                  locations("get",0,user_sel,0,0);
+                }
+        );
+
+        //Borrar el path
+        $("#clear_path").click(function() { clearUserPath(); });
+
+        //Start the simulation
+        $("#start_simulation_button").click(
+            function() 
+                { 
+                    
+                    animateCircle() 
+                });
+
+    });
+
+
+    function fillUserList(div)
+    {
+        $.ajax({
+            url: 'users.php?action=get',
+            type: 'GET',
+            dataType: 'json',
+            success: function(data){            
+                
+                var html='';
+
+                $.each(data, function(i,item){
+                    html += '<option value='+item.user_id+'>'+item.user_id+' - '+item.name+' (user_id='+item.user_id+')</option>';
+                });
+            
+                if(html == '') 
+                    {
+                        html = '<p>No users in the database.</p>';
+                    }
+                $("#lista_usuarios").append(html);
+
+            },
+
+            error: function(xhr, textStatus, errorThrown) {
+                console.log('ajax loading error...');
+                return false;
+            }
+        });
+    }
+    
+
+    //Functión que realiza las tareas de GET/ADD/DEL de los locations almacenados en la BBDD: 
+    //a=ACTION / b=id / c=user_id / d=latitude / e=longitude
+
+    function locations(action,id,userid,lat,lon)
+        {   
+            $("#clear_path").show();
+
+
+            $.ajax({
+                url: 'store_path.php?action='+action+'&id='+id+'&user_id='+userid+'&latitude='+lat+'&longitude='+lon+'',
+                type: 'GET',
+                dataType: 'json',
+                success: function(data){            
+                    var html = '';
+
+                    $.each(data, function(i,item){
+                        html += '<tr>';
+                            html += '<td class=\"tabla_esb\">'+item.id+'</td>';
+                            html += '<td class=\"tabla_esb\">'+item.timeStamp+'</td>';
+                            html += '<td class=\"tabla_esb\">'+item.user_id+'</td>';
+                            html += '<td class=\"tabla_esb\">'+item.latitude+'</td>';
+                            html += '<td class=\"tabla_esb\">'+item.longitude+'</td>'; 
+                            html += '<td><a style=\"margin-left: 12px;\" class=\"btn btn-xs btn-danger\" onclick=\"javascript:borra_location('+item.id+');\"><i class=\"glyphicon glyphicon-trash\"></i></a></td>';                                                       
+                        html += '</tr>';
+
+                    }); 
+
+                    if(html == '') 
+                        {
+                            html = '<tr><td colspan="6" align="center">No location data available.</td></tr>';
+                            $("#clear_path").hide();
+                        }
+                    $("#tabla_locations tbody").html(html);
+                },
+
+                error: function(xhr, textStatus, errorThrown) {
+                    console.log('ajax loading error...');
+                    return false;
+                }
+            });
+
+            //console.log(path);
+              // Add a new marker at the new plotted point on the polyline.
+
+        }// Fin de la funcion btnSubmitOnClick
+
+
+   function animateCircle()
+    {
+        var dato;
+        var lineCoordinates = [];
+        var user_sel = $("#lista_usuarios option:selected").val();
+
+        $.ajax({
+            url: 'store_path.php?action=get&user_id='+user_sel+'',
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            success: function(data)
+                {
+                    $.each(data, function(i,item){
+                        dato = new google.maps.LatLng(parseFloat(item.latitude), parseFloat(item.longitude));
+                        //lineCoordinates[i]=dato;
+                        lineCoordinates.push(dato);
+                    });
+                },
+
+            error: function(xhr, textStatus, errorThrown) {
+                console.log('ajax loading error...');
+                return false;
+            }
+
+        });   
+
+
+        // Mostramos el mapa
+        var mapOptions = {
+            center: new google.maps.LatLng(43.2616,-2.952634),
+            zoom: 17,
+            streetViewControl: false,
+            scrollwheel: false,
+            scaleControl: false,
+            draggable: false,
+            mapTypeId: google.maps.MapTypeId.SATELLITE
+        };
+
+        map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+        // point distances from beginning in %
+        var sphericalLib = google.maps.geometry.spherical;
+
+        pointDistances = [];
+        var pointZero = lineCoordinates[0];
+        var wholeDist = sphericalLib.computeDistanceBetween(
+                            pointZero,
+                            lineCoordinates[lineCoordinates.length - 1]);
+        
+        for (var i = 0; i < lineCoordinates.length; i++) {
+            pointDistances[i] = 100 * sphericalLib.computeDistanceBetween(
+                                            lineCoordinates[i], pointZero) / wholeDist;
+            console.log('pointDistances[' + i + ']: ' + pointDistances[i]);
+        }
+
+        // Define the symbol, using one of the predefined paths ('CIRCLE')
+        // supplied by the Google Maps JavaScript API.
+        var lineSymbol = {
+            path: google.maps.SymbolPath.CIRCLE,
+            scale: 8,
+            strokeColor: '#0000FF',
+        };
+
+        // Create the polyline and add the symbol to it via the 'icons' property.
+        line = new google.maps.Polyline({
+            path: lineCoordinates,
+            icons: [{
+                icon: lineSymbol,
+                offset: '100%'
+            }],
+            map: map
+        });
+
+
+        var count = 0;
+        var offset;
+        var sentiel = -1;
+        
+        id = window.setInterval(function () {
+            count = (count + 1) % 200;
+            offset = count /2;
+            /*
+            for (var i = pointDistances.length - 1; i > sentiel; i--) {
+                if (offset > pointDistances[i]) {
+                    //console.log('create marker');
+                    //console.log(offset);
+                    //console.log(i);
+                    var marker = new google.maps.Marker({
+                        icon: {
+                            url:"images/measle_blue.png",
+                            size: new google.maps.Size(7,7),
+                            anchor: new google.maps.Point(4,4)
+                        },
+                        position: line.getPath().getAt(i),
+                        title: line.getPath().getAt(i).toUrlValue(6),
+                        map: map
+
+                    });
+                    
+
+                    sentiel++;
+                    break;
+                }
+            }
+            */
+            
+            // we have only one icon
+            var icons = line.get('icons');
+            icons[0].offset = (offset) + '%';
+            line.set('icons', icons);
+            
+            if (line.get('icons')[0].offset == "99.5%") 
+                {
+                 icons[0].offset = '100%';
+                 line.set('icons', icons);
+                 window.clearInterval(id);
+                } 
+
+        }, 30);
+    }
+
+
+    /* Función que borra un "Location" de la BBDD */
+    function borra_location(num)
+        {
+            if( confirm("Delete Location #"+num+"?") ) {
+                    locations("del", num, 0, 0, 0);
+            }
+        }
+
+
+    function clearUserPath()
+        {
+            var user_sel = $("#lista_usuarios option:selected").val();
+
+            $.ajax({
+                url: 'store_path.php?action=del_user_path&user_id='+user_sel+'',
+                type: 'GET',
+                dataType: 'json',
+                success: function(data){
+                    if(data)
+                        {
+                         locations("get",0,0,0);
+                        $("#clear_path").hide();
+                        }            
+                },
+
+                error: function(xhr, textStatus, errorThrown) {
+                    console.log('ajax loading error...');
+                    return false;
+                }
+            }); 
+        }
+
+
+
+    function sleep(milliseconds) 
+    {
+      var start = new Date().getTime();
+      for (var i = 0; i < 1e7; i++) {
+        if ((new Date().getTime() - start) > milliseconds){
+          break;
+        }
+      }
+    }
+
+
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Nextel - GeoLocation</title>
+    
+    <style type="text/css">
+     
+    #logo {
+        margin-right: 5px;
+    }
+        
+    #map-outer {
+        height: 100%;
+        padding: 20px;
+        /*border: 2px solid #CCC;*/
+        margin-bottom: 20px;
+        background-color: #FFF;
+    }
+
+    #map-canvas {
+        height: 455px;
+    }
+
+    #store_ra {
+        width: 80px;
+    }
+
+    #ra_div {
+        display: none;
+    }
+      
+    </style>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/sb-admin.css" rel="stylesheet">
+
+    <!-- Morris Charts CSS -->
+    <link href="css/plugins/morris.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">                                    
+                    <span><img id="logo" style="max-width:100px; margin-top: -7px;" src="images/nextel_logo_3.png" width="100" height="30">
+                    GeoLocation Analysis</span>
+                </a>
+            </div>
+
+            <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav side-nav">
+                    <li>
+                        <a href="index.html"><i class="fa fa-fw fa-map-marker"></i> Map - Data Entry</a>
+                    </li>
+
+                    <li class="active">
+                        <a href="restricted.html"><i class="fa fa-fw fa-warning"></i> Restricted Areas</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </nav>
+
+        <div id="page-wrapper">
+
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+                            Restricted Areas - <small>Definition</small>
+                        </h1>
+                        <ol class="breadcrumb">
+                            <li class="active">
+                                <i class="fa fa-fw fa-warning"></i> Restricted Areas
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!--Div para mostrar mensajes -->
+                <div id="debug" class="row"></div>
+
+                <div class="row">
+                    <div id="map-outer" class="col-md-12">
+                        <div class="form-group col-md-4">
+
+                            <!--
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                        <h3 class="panel-title">#1: Search Location</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <label>Search for a place:</label>
+                                        <div class="form-group input-group">
+                                            <input type="text" class="form-control">
+                                            <span class="input-group-btn"><button class="btn btn-default" type="button"><i class="fa fa-search"></i></button></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            -->
+
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                        <h3 class="panel-title">#1: Restricted Area name</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <p>Insert a name for the <b>Restricted Area</b> and define it on the map:</p>
+                                        <input id="restricted_area_name" class="form-control">
+                                        <!--
+                                        <br>
+                                        <button type="submit" id="clear_ra" class="btn btn-danger">Clear Area</button>
+                                        -->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                        <h3 class="panel-title">Rectangle/Circle/Polyline Data</h3>
+                                </div>
+                                <div class="panel-body">
+                                        <textarea id="action" rows="8" cols="38"></textarea>
+                                </div>
+                            </div>
+                            -->
+                        
+                        </div> <!-- Fin del form-group 3-->
+
+                        <div class="col-md-8">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <th width="380px">
+                                                    <h3 class="panel-title">
+                                                    <i class="fa fa-fw fa-globe"></i>
+                                                        Map
+                                                    </h3>
+                                                </th>
+                                                
+                                                <th>
+                                                    <b>Latitude: </b><span style="font-weight: normal;" id="lat_val"></span>
+                                                    <br>
+                                                    <b>Longitude: </b><span style="font-weight: normal;" id="lon_val"></span>
+                                                </th>
+                                                
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div id="map-canvas" class="panel-body"></div>
+                            </div>
+                        </div>
+
+                    </div><!-- /map-outer -->
+                </div> <!-- /row -->
+
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Morris Charts JavaScript -->
+    <!--
+    <script src="js/plugins/morris/raphael.min.js"></script>
+    <script src="js/plugins/morris/morris.min.js"></script>
+    <script src="js/plugins/morris/morris-data.js"></script>
+    -->  
+    <!--
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+    -->
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=drawing"></script>
+
+    <script src="js/fingerprint.js"></script>
+    <script type="text/javascript">
+  
+  /* 
+    $(document).ready(function() {
+
+        $("#restricted_area_name").focus();
+        $("#store_ra").click(function() {
+
+        initializeMap();
+        google.maps.event.addDomListener(document.getElementById("map-canvas"), 'ready', function() { drawingManager.setMap(map) } );
+
+        }); //Fin de Click.
+
+    });//Fin del $(document).ready.
+
+    */
+
+    $(document).ready(function() {
+
+        $("#restricted_area_name").focus();
+        initializeMap();
+        drawingManager.setMap(map);
+
+        $("#clear_ra").click( function() { clearRestrictedArea();});
+       
+
+
+       /*
+
+        //setup before functions
+        var typingTimer;                //timer identifier
+        var doneTypingInterval = 1000;  //time in ms, 5 second for example
+
+        //on keyup, start the countdown
+        $('#restricted_area_name').keyup(function(){
+            clearTimeout(typingTimer);
+            typingTimer = setTimeout(doneTyping, doneTypingInterval);
+        });
+
+        //on keydown, clear the countdown 
+        $('#restricted_area_name').keydown(function(){
+            clearTimeout(typingTimer);
+        });
+
+        //user is "finished typing," do something
+        function doneTyping () {
+            
+            $("#ra_div").show();
+            initializeMap();
+            google.maps.event.addDomListener(document.getElementById("map-canvas"), 'ready', function() { drawingManager.setMap(map) } );
+        }
+
+        */
+
+    });//Fin del $(document).ready.
+
+
+
+    var path = [];
+    var fingerprint;
+    var myVar;
+    var escritura_tabla = false;
+
+    var map;
+    var dragging = false;
+    var rect;
+    var pos1, pos2;
+    var latlng1, latlng2;
+
+    var myOptions = {
+      center: new google.maps.LatLng(43.2195617,-2.9309956),
+      zoom: 11,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+
+    var lineOptions = {
+            strokeColor: '#FF0000',
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: '#FF0000',
+            fillOpacity: 0.35,
+            strokeWeight: 2,
+            editable:true
+          };
+
+    var drawingManager = new google.maps.drawing.DrawingManager({
+          //drawingMode: google.maps.drawing.OverlayType.POLYGON,
+          drawingMode: null,
+          drawingControl: true,
+          drawingControlOptions: {
+            position: google.maps.ControlPosition.TOP_CENTER,
+            drawingModes: [
+                google.maps.drawing.OverlayType.RECTANGLE,
+                google.maps.drawing.OverlayType.CIRCLE,
+                google.maps.drawing.OverlayType.POLYGON ]
+          },
+          polygonOptions: lineOptions,
+          circleOptions: lineOptions,
+          rectangleOptions: lineOptions
+    });
+
+// *************** CARGAMOS MAPA e INSERTAMOS EVENTOS (RECTANGULO / CIRCULO / POLIGONO) ****************/
+
+
+    function initializeMap() {
+
+        map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
+
+        /*
+        google.maps.event.addListener(map, 'click', function(event) {
+            alert(event.latLng);
+        });*/
+
+        google.maps.event.addListener(map,"mousemove",function(event) {
+            document.getElementById("lat_val").innerHTML = event.latLng.lat();
+            document.getElementById("lon_val").innerHTML = event.latLng.lng();
+        });
+
+        //Cargamos la paleta de Dibujar (Rectángulo, Círculo y Polígono):
+        drawingManager.setMap(map);
+
+
+        //EVENTO RECTANGULO: zone_type=1
+        google.maps.event.addDomListener(drawingManager, 'rectanglecomplete', function(rectangle) {
+            var ne = rectangle.getBounds().getNorthEast();
+            var sw = rectangle.getBounds().getSouthWest();
+            var rectangle_name = $("#restricted_area_name").val();
+
+            //NE_Lat / NE_Long:
+            var a = ne.toString();
+            var temp_a = a.split(',');
+
+            var temp_a_lat = temp_a[0].split("(");
+            ne_lat = temp_a_lat[1];
+
+            var temp_a_lon = temp_a[1].split(")");
+            ne_lon = temp_a_lon[0];
+
+            //SW_Lat / SW_Long:
+            var b = sw.toString();
+            var temp_b = b.split(',');
+
+            var temp_b_lat = temp_b[0].split("(");
+            sw_lat = temp_b_lat[1];
+
+            var temp_b_lon = temp_b[1].split(")");
+            sw_lon = temp_b_lon[0];
+                     
+            var rectangleObject = {
+                //"id": 1,
+                "type": "1",
+                "zonename": rectangle_name,
+                "point": [
+                    { 
+                        "plat": ne_lat,
+                        "plong": ne_lon
+                    }, 
+                     {
+                        "plat": sw_lat, 
+                        "plong": sw_lon 
+                     }]
+            };
+
+            $.ajax({
+                url: 'store_path.php?action=send_rectangle',
+                type: 'POST',
+                data: {
+                    jsonzone: JSON.stringify(rectangleObject)
+                },
+                dataType: 'json',
+                crossDomain: true,
+                success: function(data){            
+                    
+                    if(data)
+                    {
+                        console.log('Todo bien');
+                        //alert("The Restricted Areas has been successfully stored.");
+                        var msg = "<div style=\"margin-left: 40px;\" class=\"col-md-10 alert alert-success\">The <b>Restricted Area</b> has been successfully stored.</div>";
+                        
+                        $("#debug").html(msg);
+                        setTimeout(function() 
+                            {
+                                $("#debug").hide();
+                                $("#ra_div").hide();
+                                $("#restricted_area_name").val('');
+                                rectangle.setMap(null);
+                            }, 2000);
+                    }
+
+                },
+
+                error: function(xhr, textStatus, errorThrown) {
+                    console.log('ajax loading error...');
+                    return false;
+                }
+            });//Fin de Ajax.
+
+            //Limpiamos mapa y el campo Input
+            clearRestrictedArea(rectangle);
+
+        });
+
+        //EVENTO CIRCULO: zone_type=2
+        google.maps.event.addDomListener(drawingManager, 'circlecomplete', function(circle) {
+            var radius = circle.getRadius();
+            var center = circle.getCenter();
+            var circle_name = $("#restricted_area_name").val();
+
+            //Separamos 'Latitud' y 'Longitud'
+            var a = center.toString();
+            var temp = a.split(',');
+
+            //Centro_del_Circulo Latitud:
+            var temp_lat = temp[0].split("(");
+            circle_lat = temp_lat[1];
+
+            //Centro_del_Circulo Longitud:
+            var temp_lon = temp[1].split(")");
+            circle_lon = temp_lon[0];
+
+            var circleObject = {
+                "type": "2",
+                "zonename": circle_name,
+                "point": [
+                    {
+                        "plat": circle_lat,
+                        "plong": circle_lon
+                    },
+                    {
+                        "plat": radius,
+                        "plong": "null"
+                    }]
+            }
+
+            $.ajax({
+                url: 'store_path.php?action=send_circle',
+                type: 'POST',
+                data: {
+                    jsonzone: JSON.stringify(circleObject)
+                },
+                dataType: 'json',
+                crossDomain: true,
+                success: function(data){            
+                    
+                    if(data)
+                    {
+                        console.log('Todo bien');
+                        //alert("The Restricted Areas has been successfully stored.");
+                        var msg = "<div style=\"margin-left: 40px;\" class=\"col-md-10 alert alert-success\">The <b>Restricted Area</b> has been successfully stored.</div>";
+                        
+                        $("#debug").html(msg);
+                        setTimeout(function() 
+                            {
+                                $("#debug").hide();
+                                $("#ra_div").hide();
+                                $("#restricted_area_name").val('');
+                                circle.setMap(null);
+                            }, 2000);
+                    }
+
+                },
+
+                error: function(xhr, textStatus, errorThrown) {
+                    console.log('ajax loading error...');
+                    return false;
+                }
+            });//Fin de Ajax.
+
+            //Limpiamos mapa y el campo Input
+            clearRestrictedArea(circle);
+
+        });
+
+        //EVENTO POLIGONO: zone_type=3
+        google.maps.event.addDomListener(drawingManager, 'polygoncomplete', function(polygon) {
+            path = polygon.getPath();   
+            var ra_name = $("#restricted_area_name").val();
+            var poly_lat;
+            var poly_lon;
+            var polyObject = {
+                "type": "3",
+                "zonename": ra_name,
+                "point": []
+            };
+          
+            for(var i = 0; i < path.length; i++) 
+                {
+                    //document.getElementById("action").value += path.getAt(i) + '\n';
+                    var a = (path.getAt(i)).toString();
+                    var temp = a.split(',');
+
+                    var temp_lat = temp[0].split("(");
+                    poly_lat = temp_lat[1];
+
+                    var temp_lon = temp[1].split(")");
+                    poly_lon = temp_lon[0];
+
+                    //alert(poly_lat+" "+poly_lon);
+
+                    polyObject.point[i] = {
+                        "plat": poly_lat,
+                        "plong": poly_lon
+                    }
+                }
+
+            $.ajax({
+                url: 'store_path.php?action=send_polyline',
+                type: 'POST',
+                data: {
+                    jsonzone: JSON.stringify(polyObject)
+                },
+                dataType: 'json',
+                crossDomain: true,
+                success: function(data){            
+                    
+                    if(data)
+                    {
+                        console.log('Todo bien');
+                        //alert("The Restricted Areas has been successfully stored.");
+                        var msg = "<div style=\"margin-left: 40px;\" class=\"col-md-10 alert alert-success\">The <b>Restricted Area</b> has been successfully stored.</div>";
+                        
+                        $("#debug").html(msg);
+                        setTimeout(function() 
+                            {
+                                $("#debug").hide();
+                                $("#ra_div").hide();
+                                $("#restricted_area_name").val('');
+                                polygon.setMap(null);
+                            }, 2000);
+                    }
+                },
+
+                error: function(xhr, textStatus, errorThrown) {
+                    console.log('ajax loading error...');
+                    return false;
+                }
+            });//Fin de Ajax.
+            
+            //Limpiamos mapa y el campo Input
+            clearRestrictedArea(polygon);
+
+        });
+
+    } // Fin de la función InitializeMap
+
+// ************************* FIN DE EVENTOS (RECTANGULO / CIRCULO / POLIGONO) *********************************/
+
+
+    function clearRestrictedArea(forma)
+    {
+        //Mostramos Mensaje de "objeto guardado en la base de datos":
+        var msg = "<div style=\"margin-left: 40px;\" class=\"col-md-10 alert alert-success\">The <b>Restricted Area</b> has been successfully stored.</div>";
+            
+        $("#debug").html(msg);
+
+        setTimeout(function() 
+            {
+                $("#debug").hide();
+                $("#restricted_area_name").val('');
+                forma.setMap(null);
+            }, 2000);
+    }
+
+    function fillUserList(div,time_frame)
+    {
+        $.ajax({
+            url: 'store_path.php?action=get_users&time_frame='+time_frame+'',
+            type: 'GET',
+            /*data: {
+                    time: time_frame
+                }, */
+            dataType: 'json',
+            success: function(data){            
+                
+                var html='<option value=0>(Please, select a user)</option>';
+
+                $.each(data, function(i,item){
+                    html += '<option value='+item.user_id+'>'+item.user_id+'</option>';
+                });
+            
+                if(html == '') 
+                    {
+                        html = '<option>No users in this Time Frame</option>';
+                    }
+                $("#lista_users").html(html);
+
+            },
+
+            error: function(xhr, textStatus, errorThrown) {
+                /*alert("XHR:"+xhr);
+                alert("textStatus:"+textStatus);
+                alert("errorThrown:"+errorThrown);*/
+
+                console.log('ajax loading error...');
+                return false;
+            }
+        });
+    }
+
+    function showLastLocation()
+    {
+        var user = $("#lista_users option:selected").val();
+
+        $.ajax({
+            url: 'store_path.php?action=get_last_position&user_id='+user+'',
+            type: 'GET',
+            /*data: {
+                    time: time_frame
+                }, */
+            dataType: 'json',
+            success: function(data){            
+
+                $.each(data, function(i,item){
+                    //html += '<option value='+item.latitude+'>'+item.longitude+'</option>';
+                    showMarker(user,item.latitude,item.longitude);
+                });            
+                //$("#lista_users").html(html);
+            },
+
+            error: function(xhr, textStatus, errorThrown) {
+                console.log('ajax loading error...');
+                return false;
+            }
+        });
+
+    }
+
+    function showMarker(user,latitude,longitude)
+    {
+
+        var myLatlng = new google.maps.LatLng(latitude,longitude);
+        var mapOptions = {
+          zoom: 17,
+          center: myLatlng
+        }
+        var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+
+        // To add the marker to the map, use the 'map' property
+        var marker = new google.maps.Marker({
+            position: myLatlng,
+            map: map,
+            title: user
+        });
+
+        var infowindow = new google.maps.InfoWindow({
+            content: "User ID: "+user
+        });
+
+        google.maps.event.addListener(marker, 'click', function() {
+            infowindow.open(map,marker);
+        });
+    }
+  
+    </script>
+</body>
+
+</html>
+

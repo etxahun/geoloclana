@@ -1,0 +1,83 @@
+<html>
+<head>
+<title>ESB GeoLocation</title>
+<meta name = "viewport" content = "width = device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=no; charset=utf-8"/>    
+<script src="js/geo.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+
+<script>
+function initialize_map()
+{
+    var myOptions = {
+        zoom: 18,
+        mapTypeControl: true,
+        mapTypeControlOptions: {style: google.maps.MapTypeControlStyle.DROPDOWN_MENU},
+        navigationControl: true,
+        navigationControlOptions: {style: google.maps.NavigationControlStyle.SMALL},
+        mapTypeId: google.maps.MapTypeId.ROADMAP      
+      } 
+  map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+}
+
+function initialize()
+{
+  if(geo_position_js.init())
+  {
+    document.getElementById('current').innerHTML="Receiving...";
+    geo_position_js.getCurrentPosition(show_position,function(){document.getElementById('current').innerHTML="Couldn't get location"},{enableHighAccuracy:true});
+  }
+  else
+  {
+    document.getElementById('current').innerHTML="Functionality not available";
+  }
+}
+
+function show_position(p)
+{
+  document.getElementById('current').innerHTML="<b>Latitud</b>="+p.coords.latitude+" <br><b>Longitud</b>="+p.coords.longitude;
+  var pos=new google.maps.LatLng(p.coords.latitude,p.coords.longitude);
+  map.setCenter(pos);
+  map.setZoom(18);
+
+  var infowindow = new google.maps.InfoWindow({
+      content: "<strong>Estás aquí</strong>"
+  });
+
+  var marker = new google.maps.Marker({
+      position: pos,
+      map: map,
+      title:"You are here"
+  });
+
+  var bounds = new google.maps.LatLngBounds(
+      new google.maps.LatLng(43.325347074036316, -3.0090850788726584),
+      new google.maps.LatLng(43.3259612182125, -3.008126866805924)
+  );
+
+  // Define the rectangle and set its editable property to true.
+  rectangle = new google.maps.Rectangle({
+    bounds: bounds,
+    editable: true,
+    draggable: true
+  });
+
+  rectangle.setMap(map);
+
+  google.maps.event.addListener(marker, 'click', function() {
+    infowindow.open(map,marker);
+  });
+  
+}
+</script >
+<style>
+  body {font-family: Helvetica;font-size:11pt;padding:0px;margin:0px}
+  #title {background-color:#e22640;padding:5px;}
+  #current {font-size:10pt;padding:5px;}  
+</style>
+</head>
+<body onload="initialize_map();initialize()">
+  <div id="title">Posicion Actual</div>
+  <div id="current">Iniciando...</div>
+  <div id="map_canvas" style="width:640px; height:650px"></div>
+</body>
+</html>
