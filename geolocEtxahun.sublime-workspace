@@ -1,0 +1,680 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"back",
+				"background"
+			],
+			[
+				"ne",
+				"nextel_logo_3.jpg	w:1452 h:370"
+			],
+			[
+				"LatLng",
+				"LatLngBounds"
+			],
+			[
+				"circl",
+				"circle_ra"
+			],
+			[
+				"circle",
+				"circle_center"
+			],
+			[
+				"circ",
+				"circle_center"
+			],
+			[
+				"pol",
+				"polygon_ra"
+			],
+			[
+				"cir",
+				"circle_ra"
+			],
+			[
+				"rect",
+				"rectangle_ra"
+			],
+			[
+				"margin",
+				"margin-right"
+			],
+			[
+				"paddin",
+				"padding-right"
+			],
+			[
+				"dra",
+				"drawingManager"
+			],
+			[
+				"rec",
+				"rectangleObject"
+			],
+			[
+				"getLocation",
+				"getLocationSeguimiento"
+			],
+			[
+				"text",
+				"text"
+			],
+			[
+				"es",
+				"escritura_tabla"
+			],
+			[
+				"op",
+				"option	Tag"
+			],
+			[
+				"bor",
+				"border-left"
+			],
+			[
+				"init",
+				"initialize"
+			],
+			[
+				"in",
+				"initialize_map"
+			],
+			[
+				"line",
+				"lineCoordinates"
+			],
+			[
+				"load",
+				"loadMap"
+			],
+			[
+				"edi",
+				"edificio"
+			],
+			[
+				"padd",
+				"padding"
+			],
+			[
+				"locations",
+				"locations_arr"
+			],
+			[
+				"error",
+				"error_reporting"
+			],
+			[
+				"point",
+				"pointDistances"
+			],
+			[
+				"edif",
+				"edifAcoords"
+			],
+			[
+				"basurto",
+				"basurtoOverlay"
+			],
+			[
+				"edifB",
+				"edifBcoords"
+			],
+			[
+				"conte",
+				"contentString"
+			],
+			[
+				"conen",
+				"contentString"
+			],
+			[
+				"font",
+				"font-weight"
+			],
+			[
+				"marg",
+				"margin-top"
+			],
+			[
+				"animate",
+				"animateCircle"
+			],
+			[
+				"margin-",
+				"margin-left"
+			],
+			[
+				"selec",
+				"selectpicker"
+			],
+			[
+				"he",
+				"height"
+			],
+			[
+				"mar",
+				"margin-bottom"
+			],
+			[
+				"parada",
+				"datos_parada"
+			],
+			[
+				"dao",
+				"datos_lineas"
+			],
+			[
+				"Denomin",
+				"DenominacionLinea"
+			],
+			[
+				"json",
+				"json_encode"
+			],
+			[
+				"datos",
+				"datos_lineas"
+			],
+			[
+				"ht",
+				"html2"
+			],
+			[
+				"input",
+				"input_municipio"
+			],
+			[
+				"strto",
+				"strtoupper"
+			],
+			[
+				"str",
+				"strcmp"
+			],
+			[
+				"for",
+				"for	for …"
+			],
+			[
+				"Descrip",
+				"DescripcionGrupo"
+			],
+			[
+				"Desc",
+				"Descripción"
+			],
+			[
+				"print",
+				"print_r"
+			],
+			[
+				"tempma",
+				"tempmaxK"
+			],
+			[
+				"wi",
+				"width"
+			],
+			[
+				"bo",
+				"bootstrap.js"
+			],
+			[
+				"li",
+				"link	Tag"
+			],
+			[
+				"j",
+				"jQuery.getJSON	jQuery.getJSON"
+			],
+			[
+				"backgr",
+				"background-color"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 307.0,
+		"selected_items":
+		[
+			[
+				"form",
+				"Snippet: bs3-form"
+			],
+			[
+				"bs lab",
+				"Snippet: bs3-label"
+			],
+			[
+				"bs",
+				"Snippet: bs3-select"
+			],
+			[
+				"fet",
+				"Fetch: File"
+			],
+			[
+				"bs3nav",
+				"Snippet: bs3-navbar-fixed-top"
+			],
+			[
+				"nuevo",
+				"Snippet: NuevoProyectoBootstrap3"
+			],
+			[
+				"bs3for",
+				"Snippet: bs3-form-horizontal"
+			],
+			[
+				"bs3table",
+				"Snippet: bs3-table-bordered"
+			],
+			[
+				"bs3 table",
+				"Snippet: bs3-table-bordered"
+			],
+			[
+				"bs3 tb",
+				"Snippet: bs3-table"
+			],
+			[
+				"bs3",
+				"Snippet: bs3-table"
+			],
+			[
+				"Fet",
+				"Fetch: File"
+			],
+			[
+				"Fetc",
+				"Fetch: Package"
+			],
+			[
+				"p",
+				"Package Control: Install Package"
+			],
+			[
+				"proy",
+				"Snippet: NuevoProyectoBootstrap3"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"ins",
+				"Package Control: Install Package"
+			],
+			[
+				"Nu",
+				"Snippet: NuevoProyectoBootstrap3"
+			],
+			[
+				"bootstr",
+				"Snippet: Bootstrap danger button"
+			],
+			[
+				"Bootstr",
+				"Snippet: Bootstrap starter"
+			],
+			[
+				"in",
+				"Package Control: Install Package"
+			],
+			[
+				"Snippet: bootstra",
+				"Snippet: Bootstrap starter"
+			],
+			[
+				"pa",
+				"Package Control: Install Package"
+			],
+			[
+				"pac",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			],
+			[
+				"",
+				"Snippet: bs3-navbar-form"
+			],
+			[
+				"Pac",
+				"Package Control: Install Package"
+			],
+			[
+				"Packa",
+				"Package Control: List Packages"
+			],
+			[
+				"P",
+				"Package Control: List Packages"
+			],
+			[
+				"Pack",
+				"Package Control: Install Package"
+			],
+			[
+				"Pa",
+				"Package Control: Install Package"
+			],
+			[
+				"php",
+				"Format: Php"
+			],
+			[
+				"jquer",
+				"Snippet: jQuery.ajax"
+			],
+			[
+				"jq",
+				"Set Syntax: jQuery (JavaScript)"
+			],
+			[
+				"j",
+				"Set Syntax: JSON"
+			],
+			[
+				"Snippet: ",
+				"Snippet: Lorem ipsum"
+			],
+			[
+				"cle",
+				"CleanCSS: Clean current file"
+			]
+		],
+		"width": 593.0
+	},
+	"console":
+	{
+		"height": 125.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Applications/MAMP/htdocs/geolocnextel/analysis/restricted.html.backup",
+		"/Applications/MAMP/htdocs/geolocnextel/dataentry/GeoLocNextelDataEntry.sublime-workspace",
+		"/Applications/MAMP/htdocs/geolocnextel/dataentry/GeoLocNextelDataEntry.sublime-project",
+		"/Applications/MAMP/htdocs/geolocnextel/analysis/GeoLocNextelAnalysis.sublime-project",
+		"/Applications/MAMP/htdocs/ZZZ-BACKUPS/Nextel GeoLocation (14_11_2014)/geolocnextelbsjordi_analysis/restricted.html",
+		"/Applications/MAMP/htdocs/ZZZ-BACKUPS/Nextel GeoLocation (14_11_2014)/geolocnextelbsjordi_analysis/index.html",
+		"/Applications/MAMP/htdocs/geolocnextelbs/ZZZ-VERSIONES_ANTERIORES/v1_posicion_objeto(lat,long)_y_Muestra_Edificios_A_y_B/index.html",
+		"/Applications/MAMP/htdocs/geolocnextelbs/ZZZ-VERSIONES_ANTERIORES/v1_posicion_objeto(lat,long)_y_Muestra_Edificios_A_y_B/index.html.bak_con_edificios_A_y_B",
+		"/Applications/MAMP/htdocs/geolocnextelbs/ZZZ-VERSIONES_ANTERIORES/v1_posicion_objeto(lat,long)_y_Muestra_Edificios_A_y_B/locations.html.bak_lectura_add_del_de_BBDD_sencilla",
+		"/Applications/MAMP/htdocs/geolocnextelbs/backup_original/bootstrap-elements.html",
+		"/Applications/MAMP/htdocs/geolocnextelbs/posicion3.php",
+		"/Applications/MAMP/htdocs/geolocnextelbs/posicion2.php",
+		"/Applications/MAMP/htdocs/geolocnextelbs/posicion.php",
+		"/Applications/MAMP/htdocs/geolocnextelbs/index.html.bak_con_edificios_A_y_B",
+		"/Applications/MAMP/htdocs/geolocnextelbs/index.html",
+		"/Applications/MAMP/htdocs/geolocnextel/muestramarkers.php",
+		"/Applications/MAMP/htdocs/geolocnextel/insertaposicion.php",
+		"/Applications/MAMP/htdocs/geolocnextel/index5.html",
+		"/Applications/MAMP/htdocs/geolocnextel/index4.html",
+		"/Applications/MAMP/htdocs/geolocnextel/index3.html",
+		"/Applications/MAMP/htdocs/geolocnextel/index2.html",
+		"/Applications/MAMP/htdocs/geolocnextel/consultamarcadores.php",
+		"/Applications/MAMP/htdocs/geolocnextel/index.html",
+		"/Applications/MAMP/htdocs/geolocation/map.html",
+		"/Applications/MAMP/htdocs/geolocation/css/style.css",
+		"/Applications/MAMP/htdocs/geolocation/aurelio.html",
+		"/Applications/MAMP/htdocs/geolocation/positions.html",
+		"/Applications/MAMP/htdocs/geolocation/index.html",
+		"/Users/esb/Desktop/partners.php",
+		"/Applications/MAMP/htdocs/bizkaibus/realiza_busqueda_lineas_municipio.php",
+		"/Applications/MAMP/htdocs/hamabide11/historicos.php",
+		"/Applications/MAMP/htdocs/parseaxml/index copia.php",
+		"/Applications/MAMP/htdocs/bizkaibus/index.php",
+		"/Applications/MAMP/htdocs/parseaxml/realiza_busqueda_cadenas.php",
+		"/Applications/MAMP/htdocs/parseaxml/index.php",
+		"/Applications/MAMP/htdocs/parseaxml/prueba.php",
+		"/Applications/MAMP/htdocs/parseaxml/Series.xml",
+		"/Applications/MAMP/htdocs/domonesb/index.php",
+		"/Applications/MAMP/htdocs/grafika/index.php",
+		"/Applications/MAMP/htdocs/maletaboda/index.html",
+		"/Applications/MAMP/htdocs/grafika/js/jquery.js",
+		"/Applications/MAMP/htdocs/bizkaibus/prueba.php",
+		"/Applications/MAMP/htdocs/bizkaibus/index3.php",
+		"/Applications/MAMP/htdocs/bizkaibus/realiza_busqueda_paso_parada.php",
+		"/Applications/MAMP/htdocs/gcharts/index.php",
+		"/Applications/MAMP/htdocs/gcharts/lib.php",
+		"/Applications/MAMP/htdocs/bizkaibus/index(buena).php",
+		"/Applications/MAMP/htdocs/hamabide11/altas.php",
+		"/Applications/MAMP/htdocs/bizkaibus/foro_nutricionistas/js/main.js",
+		"/Applications/MAMP/htdocs/bizkaibus/foro_nutricionistas/index.html",
+		"/Applications/MAMP/htdocs/bizkaibus/foro_nutricionistas/users.php",
+		"/Applications/MAMP/htdocs/bizkaibus/realiza_busqueda_municipio.php",
+		"/Applications/MAMP/htdocs/hamabide11/realiza_busqueda_historicos.php",
+		"/Applications/MAMP/htdocs/bizkaibus/realiza_busqueda.php",
+		"/Users/esb/Library/Application Support/Sublime Text 2/Packages/User/Fetch.sublime-settings",
+		"/Applications/MAMP/htdocs/bizkaibus/js/jquery.js",
+		"/Applications/MAMP/htdocs/pruebagcharts/index.html",
+		"/Applications/MAMP/htdocs/maletaboda/showmaletanerea.php",
+		"/Applications/MAMP/htdocs/maletaboda/showmaletaetxahun.php",
+		"/Applications/MAMP/htdocs/maletaboda/showpendientes.php",
+		"/Applications/MAMP/htdocs/maletaboda/showneceser.php",
+		"/Applications/MAMP/htdocs/json/index.php",
+		"/Applications/MAMP/htdocs/bizkaibus/index.html",
+		"/Applications/MAMP/htdocs/hamabide11/modificar_paciente.php",
+		"/Applications/MAMP/htdocs/maletaboda/save.php",
+		"/Applications/MAMP/htdocs/hamabide11/listarevolutivos.php",
+		"/Applications/MAMP/htdocs/hamabide11/conexion.php",
+		"/Applications/MAMP/htdocs/hamabide11/login/include/constants.php",
+		"/Applications/MAMP/htdocs/maletaboda/post.php",
+		"/Applications/MAMP/htdocs/maletaboda/index3.html",
+		"/Applications/MAMP/htdocs/hamabide11/evolutivos.php",
+		"/Applications/MAMP/htdocs/hamabide11/index.php",
+		"/Applications/MAMP/htdocs/hamabide11/search.php",
+		"/Applications/MAMP/htdocs/hamabide11/.htaccess",
+		"/Users/esb/Library/Application Support/Sublime Text 2/Packages/SideBarEnhancements/messages/11.13.2012.1305.0.txt",
+		"/Applications/MAMP/htdocs/hamabide11/css/style.css",
+		"/Applications/MAMP/htdocs/hamabide11/bootstrap/css/signin.css",
+		"/Applications/MAMP/htdocs/domonesb/index.html",
+		"/Users/esb/Library/Application Support/Sublime Text 2/Packages/User/NuevoProyectoBootstrap3.sublime-snippet",
+		"/Applications/MAMP/htdocs/domonesb/js/jquery.js",
+		"/Applications/MAMP/htdocs/domonesb/starter-template.css",
+		"/Users/esb/Library/Application Support/Sublime Text 2/Packages/Emmet/Emmet.sublime-settings",
+		"/Users/esb/Desktop/LmGzeTAp.html",
+		"/Users/esb/Desktop/prueba.css",
+		"/Users/esb/Library/Application Support/Sublime Text 2/Packages/User/Preferences.sublime-settings"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"bounds",
+			"Insert a name",
+			"3000",
+			"var msg",
+			"showUserId",
+			"clear_ra",
+			"clear_track_values",
+			"stop_track",
+			"start_track",
+			"clear_track_values",
+			"stop_track",
+			"start_track",
+			"initializeMap",
+			"clearRestricted",
+			"	\n\nNo zone definition receive",
+			"showRestrictedAreasLis",
+			"showRestrictedAreasList",
+			"url",
+			"polygone",
+			"ra_div",
+			"rectangle",
+			"restricted_area_name",
+			"showError",
+			"alert",
+			"php",
+			"url",
+			"clear_track_values",
+			"url",
+			"escritura",
+			"alert",
+			"escritura",
+			"user_id",
+			"demo",
+			"select",
+			"fa",
+			"map",
+			"current",
+			"Bordered Table",
+			"width",
+			"has been",
+			"The path has been",
+			"lineCoordinates",
+			"start_simulation_button",
+			"clear_path",
+			"Mapa",
+			"draw_path",
+			"center",
+			"store_path",
+			"Acions",
+			"Actions",
+			"muestraEdificioB",
+			"Forms",
+			"edif",
+			"eventos",
+			"Las coordenadas",
+			"marker",
+			"edifB",
+			"edifA",
+			"edifB",
+			"edifA",
+			"watchposition",
+			"<!",
+			"container",
+			"fillComboBox",
+			"getUsersArray",
+			"setHiddenResultsContainer",
+			"tmp_results",
+			"page-section-nerea",
+			"30%",
+			"edit",
+			"txt_nerea_item",
+			"form-inline",
+			"margin-top",
+			"}",
+			"#user_edit{\n	background-color: blue;\nwidth: 40px; \n}"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": true,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 34.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 100.0
+	},
+	"output.sftp":
+	{
+		"height": 0.0
+	},
+	"replace":
+	{
+		"height": 0.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 307.0,
+	"status_bar_visible": true
+}
